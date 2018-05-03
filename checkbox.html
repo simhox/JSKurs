@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script>
+$(document).ready(function(){
+
+$('canvas').click(haken());
+
+var hakenOhne =function(){
+    var ctx = $('canvas').get(0).getContext('2d');
+    ctx.fillStyle ='red';
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth=2;
+    ctx.translate(10,10);
+    ctx.moveTo(0,0);
+    ctx.lineTo(0,30);
+    ctx.lineTo(30,30);
+    ctx.lineTo(30,0);
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.moveTo(7,20);
+    ctx.lineTo(17,25);
+    ctx.lineTo(27,10);
+    ctx.lineTo(22,7);
+    ctx.lineTo(14,18);
+    ctx.lineTo(7,15);
+    ctx.closePath();
+    ctx.stroke();
+    //strokeRect
+    }
+    var hakenMit =function(){
+
+
+        var ctx = $('canvas').get(0).getContext('2d');
+        ctx.fillStyle ='red';
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth=2;
+
+        ctx.moveTo(10,10);
+        ctx.strokeRect(30,30);
+
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.moveTo(7,20);
+        ctx.lineTo(17,25);
+        ctx.lineTo(27,10);
+        ctx.lineTo(22,7);
+        ctx.lineTo(14,18);
+        ctx.lineTo(7,15);
+        ctx.closePath();
+
+        ctx.stroke();
+        //strokeRect
+        }
+
+        hakenMit();
+});
+
+    </script>
+</head>
+<style>
+canvas{ border:1px solid #000;}
+</style>
+<body>
+<canvas id="canvas" width="50" height="50"></canvas>
+</body>
+</html>
