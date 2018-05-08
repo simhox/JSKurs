@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+    //alle checkboxen suchen
+    // im DOM checkbox mit Canvas ersetzen
+    // Canvas mit Funktion wie Checkbox
+    $(document).ready(function(){
+            $(document.body).replaceCheckbox();
+        });
+
+            (function($) {
+                jQuery.fn.replaceCheckbox =function(){
+                    let checkboxes = $('input[type="checkbox"]');
+
+                    checkboxes.each(function(){
+                        var canvas =$('<canvas>');
+                        canvas.attr('width', 40);
+                        canvas.attr('height', 40);
+                        canvas.insertAfter(this);
+                        //$(this).css('display','none');
+                        //$(this).css({'padding':'70px 0','border':'1px solid black'});
+                        var checked = false;
+                        var ctx = canvas.get(0).getContext('2d');
+                        canvas.on('click',function() {
+                            checked = !checked;
+                            console.log('canvas clicked');
+                            drawCheckbox( ctx, checked );
+                        });
+                    });//end of checkboxes.each
+
+                    var drawCheckbox = function( ctx, checked ) {
+                        ctx.clearRect(0,0,40,40);
+                        ctx.strokeStyle = '#000';
+                        ctx.lineWidth = 1;
+                        ctx.strokeRect(20,20,36,36);
+                        if ( checked ) {
+                            ctx.strokeStyle = '#0C0';
+                            ctx.lineWidth = 5;
+                            ctx.beginPath();
+                            ctx.moveTo( 8, 19 );
+                            ctx.lineTo( 18, 29);
+                            ctx.lineTo( 33, 9);
+                            ctx.stroke();
+                        }
+                    }//end drawCheckbox
+                    return this;
+                }//end replace checkbox
+            })(jQuery);
+
+
+
+    </script>
+    <style>
+    canvas{
+        border:1px solid black;
+    }
+    .center {
+        padding: 70px 0;
+        border: 3px solid green;
+    }
+    </style>
+</head>
+<body>
+
+    <input type="checkbox" name="agb" value="">Datenschutz alles gut<br>
+    <input type="checkbox" name="newsletter" value=""> Ich will jeden Tag Newsletter<br>
+    <input type="checkbox" name="marketing" value="">Noch mehr Marketingzeug akzeptieren <br>
+</body>
+</html>

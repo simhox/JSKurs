@@ -20,9 +20,9 @@
 			var radius =50;
 
 			var animationCanvas = function(){
-			if(radius==0){
-				clearInterval(interval);
-			}
+				if(radius==0){
+					clearInterval(interval);
+				}
 			var ctx = $('canvas').get(0).getContext('2d');//get(0) => zum node element von jquery objetk, 0 ist erstes nodeelement
 			ctx.clearRect(0,0,200,200);
 			ctx.fillStyle ='red';
@@ -36,7 +36,6 @@
 			ctx.lineTo(180,0);
 			ctx.closePath();
 			ctx.stroke();
-
 			ctx.beginPath();//neues element,.. sonst an letzes punkt
 			ctx.arc(90,90,radius--,0,2*Math.Pi);//mittelpunkt 9090,radius 50;0,2*pi =kreis
 			ctx.fillStyle='#fff';
@@ -45,7 +44,6 @@
 			ctx.translate(-10,-10);
 		}
 		var interval = setInterval(function(){animationCanvas();},500);
-
 	});
 
 	</script>
