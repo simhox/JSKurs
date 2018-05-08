@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    	<script src="jquery-3.3.1.min.js"></script>
+        <style media="screen">
+            body{
+                font-size:2em;
+            }
+        </style>
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+    //setTimeout
+    var countdown=function(x,cb){
+        $('#c1').html(x);
+        if(x==0) {
+            cb();
+            return;
+        }
+        setTimeout(function(){
+            countdown(--x,cb);
+        },1000);//ende timout
+    }//ende countdown
+
+    countdown(5,function(){
+        $('#c1').css({'color':'red'});
+        //callback funktion =tut was die ausgeführt wird wenn 0 erreicht
+    });//countdownaufruf
+
+    //setInterval
+    var y=5;
+    var int =setInterval(function(){
+        $('#c2').html(--y);
+        if(y==0){
+            clearInterval(int);
+            $('#c2').css({'color':'red'});
+        }
+    },1000);
+
+    //requestAnimationFrame
+        //ruft funktion(callbackfunktion ) zum nächstmögliuchen zeitpunkt auf wenn darstellung wieder möglich ist... immer wenn frame am screen
+    var countdownRAF =function(z,start){
+        $('#c3').html(z);
+        if (z==0) return;
+        requestAnimationFrame(function(){
+            if((Date.now()- start )>=1000){
+                z--;
+                start= Date.now();
+            }
+            countdownRAF(z, start);
+        });
+    }
+    countdownRAF(5, Date.now());
+
+});//document ready
+</script>
+</head>
+
+<body>
+    <span id="c1">5<span>
+    <span id="c2">5<span>
+    <span id="c3">5<span>
+
+</body>
+</html>

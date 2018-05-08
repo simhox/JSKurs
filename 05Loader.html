@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Loader</title>
+</head>
+	<script src="jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+
+    //fillText
+    //arc ctx.arc(90,90,radius--,0,2*Math.Pi);//mittelpunkt 9090,radius 50;0,2*pi =kreis //winkel in rad
+    //setTimeout
+$(document).ready(function(){
+
+    var countdown=function(x,y){
+        var ctx = $('canvas').get(0).getContext('2d');
+        ctx.clearRect(0,0,50,50);
+        ctx.font="20px Arial";
+        ctx.fillText(x,20,33);
+        ctx.beginPath();
+        var seg= 2*Math.PI/x;
+        var startAngle = 0 ;
+        var endAngle = seg *y;
+        y++;
+        ctx.arc(25,25,25,startAngle,endAngle);
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.lineTo(25,25);
+        ctx.stroke();
+
+        if(x==0) {
+            return;
+        }
+        setTimeout(function(){
+            countdown(--x,y++);
+        },1000);
+
+
+    }//ende countdown
+
+    countdown(20,0);//countdownaufruf
+});
+
+
+</script>
+<body>
+    <canvas id="canvas" width="50" height="50"></canvas>
+</body>
+</html>
