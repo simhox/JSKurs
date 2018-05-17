@@ -42,9 +42,21 @@ Timer.prototype.draw = function(){
     ctx.arc(25,25,25,startAngle,endAngle);
     ctx.strokeStyle = 'black';
     ctx.stroke();
-    ctx.beginPath();
-    ctx.lineTo(25,25);
-    ctx.stroke();
+
+    if(this.time>0&&this.max!=this.time){
+        ctx.beginPath();
+        //cx + r * cos(a)
+        ctx.moveTo(25-25*Math.sin(endAngle-0.5*Math.PI),25+25*Math.cos(endAngle-0.5*Math.PI));
+
+        ctx.lineTo(25,25);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(50,25);
+        ctx.lineTo(25,25);
+        ctx.stroke();
+    }
+
+
 }
 
 Timer.prototype.start =function(){
