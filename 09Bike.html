@@ -47,46 +47,50 @@ var svgCode = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink
             this.bahn = this.createBahn();
             this.pos = 0;
             console.log('Bike created');
-            this.speed=Math.floor(Math.random() * 5)+1;
+            this.speed=Math.floor(Math.random() * 100)+1;
 
         }
         createBahn(){
           return  $('<div class="bahn">').appendTo('body').append(this.node);
         }
-      go(){
+      go(cb){
       console.log('go called');
         this.node.css({'left':this.pos+this.speed});
         this.pos = this.speed+this.pos;
         if(this.pos+this.speed >(this.bahn.width()-50)){
             this.bahn.append( $('<span>').css({'left':this.bahn.width()}).html( result++ )) ;
-
+          cb();
           return;
         }
-        setTimeout(this.go.bind(this),20);
+        setTimeout(this.go.bind(this,cb),20);
+      }
+
+      printRanking(i){
+        console.log('ranking ist' +i);
       }
     }
-
+var ranking =0;
     $(document).ready(function(){
         $('#btn-radplus').click(function(){
             var color = $('#colorpicker').val();
             var x = new Bike(color);
-            x.node.click(function(){
-              console.log('bike clicked');
-            x.speed = x.speed+3;
-            });//end of raceclick
+              x.node.click(function(){
+                console.log('bike clicked');
+                x.speed = x.speed+3;
+              });//end of raceclick
             $('#race').click(function(){
-                x.go();
+                x.go(function(){
+                  ranking++;
+                  x.printRanking(ranking);
+                });
             });//end of raceclick
         });//end of btn-radplus
-          //  x.speed=x.speed+20;
-
-
     });//end of domready function
 })();
 </script>
 <style>
     svg{
-      position: relative;
+        position: relative;
         height:50px;
         width:50px;
         color:black;
@@ -95,7 +99,6 @@ var svgCode = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink
         border: 1px solid black;
     }
   /*span { position:relative; top:10px; right:5px; font-size:1.5em; }*/
-
 </style>
 <body>
 
