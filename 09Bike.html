@@ -37,6 +37,8 @@ var svgCode = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink
   </g>
   </svg>`;
 
+(function(){
+    var result =1;
     class Bike{
         constructor(farbe){
             this.farbe =  farbe || '#000'; //default schwarz
@@ -45,7 +47,8 @@ var svgCode = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink
             this.bahn = this.createBahn();
             this.pos = 0;
             console.log('Bike created');
-            this.speed=Math.floor(Math.random() * 11);
+            this.speed=Math.floor(Math.random() * 5)+1;
+
         }
         createBahn(){
           return  $('<div class="bahn">').appendTo('body').append(this.node);
@@ -54,9 +57,9 @@ var svgCode = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink
       console.log('go called');
         this.node.css({'left':this.pos+this.speed});
         this.pos = this.speed+this.pos;
-        console.log(this.pos);
-        console.log('left' +this.node.css('left'));
         if(this.pos+this.speed >(this.bahn.width()-50)){
+            this.bahn.append( $('<span>').css({'left':this.bahn.width()}).html( result++ )) ;
+
           return;
         }
         setTimeout(this.go.bind(this),20);
@@ -64,21 +67,22 @@ var svgCode = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink
     }
 
     $(document).ready(function(){
-
         $('#btn-radplus').click(function(){
             var color = $('#colorpicker').val();
             var x = new Bike(color);
+            x.node.click(function(){
+              console.log('bike clicked');
+            x.speed = x.speed+3;
+            });//end of raceclick
             $('#race').click(function(){
                 x.go();
-            });
+            });//end of raceclick
+        });//end of btn-radplus
+          //  x.speed=x.speed+20;
 
 
-        });
-
-        //$(svgCode).appendTo('body').find('path').css({fill:'blue'});
-
-    });
-
+    });//end of domready function
+})();
 </script>
 <style>
     svg{
@@ -90,6 +94,8 @@ var svgCode = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink
     .bahn{
         border: 1px solid black;
     }
+  /*span { position:relative; top:10px; right:5px; font-size:1.5em; }*/
+
 </style>
 <body>
 
