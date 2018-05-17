@@ -24,6 +24,9 @@
             $('<div class="bahn">').appendTo('body').append(this.node);
         }
 
+        bikeRace(){
+            this.node.animate({left:-=50});
+        }
     }
 
     $(document).ready(function(){
@@ -42,19 +45,20 @@
 </script>
 <style>
     .fahrrad{
-        height:50px;
-        width:50px;
+        height:40px;
+        width:40px;
         color:black;
         border:1px solid black;
     }
     .bahn{
         border: 1px solid black;
+        padding:10px;
     }
 </style>
 <body>
-<form>
+
     <input type="color" id='colorpicker'><button id="btn-radplus">Fahrrad Hinzufügen</button>
     <button id="race" type="submit">Rennen Starten</button>
-</form>
+
 </body>
 </html>
