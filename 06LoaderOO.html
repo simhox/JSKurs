@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>LoaderOO</title>
+</head>
+	<script src="jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+    var i = 0;
+    var max;
+
+function Timer(time){
+    this.max =time;
+    this.time =time;
+    this.canvas = this.build();
+    this.ctx = this.canvas.getContext('2d');
+}
+Timer.prototype.build= function(){
+    //create canvas
+    return  $('<canvas>').attr({'width':'50','height':'50'}).get(0);
+    // canvas.attr('height','50');
+    // canvas.attr('width','50');
+    //console.log("build called");
+}
+Timer.prototype.draw = function(){
+    var ctx = this.ctx;
+    //ctx.clearRect(0,0,50,50);
+    ctx.font="20px Arial";
+    ctx.fillText(this.time,20,33);
+    ctx.beginPath();
+
+    var seg= 2*Math.PI/this.max;
+    console.log('max' +this.max);
+    var startAngle = 0 ;
+    var endAngle = seg *this.time;
+    this.time++;
+    ctx.arc(25,25,25,startAngle,endAngle);
+    ctx.strokeStyle = 'black';
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.lineTo(25,25);
+    ctx.stroke();
+}
+
+Timer.prototype.start =function(){
+    this.draw();
+    this.time--;
+    console.log('this.time' + this.time);
+    if(this.time==0) {
+        console.log('this.time' + this.time);
+        return;
+    }
+    setTimeout(
+        this.start.bind(this)
+    ,1000);
+
+}
+
+var Timer = new Timer(200);
+Timer.start();
+
+    // var countdown=function(x,y){
+    //     var ctx = $('canvas').get(0).getContext('2d');
+    //     ctx.clearRect(0,0,50,50);
+    //     ctx.font="20px Arial";
+    //     ctx.fillText(x,20,33);
+    //     ctx.beginPath();
+    //     console.log('i'+i);
+    //     if (i==0){
+    //         console.log(i);
+    //         max = x;
+    //     }
+    //      i++;
+    //     var seg= 2*Math.PI/max;
+    //     console.log('max' +max);
+    //     var startAngle = 0 ;
+    //     var endAngle = seg *y;
+    //     y++;
+    //     ctx.arc(25,25,25,startAngle,endAngle);
+    //     ctx.strokeStyle = 'black';
+    //     ctx.stroke();
+    //     ctx.beginPath();
+    //     ctx.lineTo(25,25);
+    //     ctx.stroke();
+    //
+    //     if(x==0) {
+    //         return;
+    //     }
+    //     setTimeout(function(){
+    //         countdown(--x,y++);
+    //     },1000);
+    //
+    //
+    // }//ende countdown
+
+    //countdown(20,0);//countdownaufruf
+});
+
+
+</script>
+<body>
+</body>
+</html>

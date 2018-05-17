@@ -1,0 +1,21 @@
+static :standard
+fixed : fixed from seitenrand
+relative : relativ vom übergeordneten objekt
+absolute: relativ zum parent( seitenrand)
+sticky: bleibt im sichtbereich
+
+transition: left(eigenschaft) 2s (dauer ) 1s(startupzeit) linear(animation); //left = css eigenschaft
+//transition übernimmt änderung..
+transtion: all 2s; //alle eigenschaften die zwischenschritte erlauben..(ausnahme: zb. display block aber opacity geht)
+
+animation: moveit(name) 2s(dauer) 2(anzahl wie oft tun soll (zahl oder infinte oder forwards(bleibt auf letztem frame stehen))) linear(animationsart);
+
+@keyframes moveit {
+
+0% {left:0;} (start)
+100%{left:200px}    (ende)
+}
+
+eventbubbling: click auf parent weitergegeben bis body alles abfängt .. click = click auf viele elemente...
+
+$(this).animate({left:200px},2000);//+callback was am ende passieren soll

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>OOECMA6</title>
+    <script type="text/javascript">
+        var x =5;
+        var f = function(){
+            for(let x =1 ; x<=3; x++){//dieses let gilt nur in schleife//let scope ist block bezogen //var ist funktionsbezogen//var wird immer gehoisted
+                console.log(x);
+            }
+            //console.log(x);//undefinded::var gibts aber wird erst später zugewiesen
+
+            let x =3; //let erst ab deklaration verfügbar.. gilt nur innerhalb eines blocks
+
+            console.log(x,z);
+
+        }
+        const z=10;
+        f();
+
+        //Arrow funktion
+
+        var quadrat = function(a){
+            return a*a;
+        }
+
+        var q = (a,b) => a*b;
+
+        console.log(quadrat(5),q(6,4));
+
+        var f2 = function(c,callback){
+            var umfang = 2*c*Math.PI;
+            callback(umfang);
+        }
+
+        f2(10,function(u){
+            console.log(u);
+        });
+        f2(10,u =>console.log(u));
+
+        //Callbackfunktion
+            //funktion die übergeben wird
+        // Methode
+            //funktion in Objekt
+        //Closure
+            //funktion die funktion zurückliefert und einen an diese funktion angehefteten wert zurückliefert
+            var multiply = function (a){
+                return function(b){ return a*b;};
+            }
+            var m5= multiply(5);
+            var m6= multiply(6);
+            console.log(m5(10),m5(5),m6(5));
+        //Konstruktorfunktion
+            //funktion die neue objekte bilden kann, immer grossbuchstabe
+            var K = function(){
+                this.x =1;
+            }
+            var k = new K();
+        //IIFE
+            //sofort aufgerufen,und keinen Namen
+            //was bringts.. variablen sind kapselbar
+            (function(){
+                console.log(2);
+            })();
+        //rekursive Funktion
+            //ruft sich selbst auf
+
+            //OOP ECMA 5
+            console.log('---OOP mit ECMA5');
+            var Tier = function(anzahlBeine){
+                this.beine = anzahlBeine;
+                this.entferneBein =function(){
+                    this.beine--;
+                }
+                this.toString = function(){
+                    return 'Tier mit ' +this.beine+ ' Beinen';
+                }
+            }
+            Tier.prototype.beinDazu = function(){
+                this.beine++;
+            }
+            var dumbo = new Tier(4);
+            console.log(dumbo);
+            console.log(dumbo.toString());
+            dumbo.entferneBein();
+            console.log(dumbo.beine);
+            dumbo.beinDazu();
+            console.log(dumbo.beine);
+            //alert(dumbo); //alert ruft toString methode auf
+
+            //OOP ECMA 6
+            console.log('---OOP mit ECMA6');
+            class Auto {
+                constructor(anzahlReifen){
+                    this.reifen= anzahlReifen;
+                    this.toString= function(){
+                        return 'Auto mit '+ anzahlReifen +' Reifen';
+                    }
+                }
+                nagel(){
+                    this.reifen--;
+                }
+            }
+
+            var brumm = new Auto(4);
+            brumm.nagel();
+            alert(brumm);
+            console.log(brumm.reifen);
+            class LKW extends Auto{
+                constructor(){
+                    super(6);
+                    this.toString = function(){
+                        return 'LKW hat viele Reifen';
+                    }
+                }
+            }
+
+            var truck = new LKW();
+            console.log(truck.toString());
+            //es6-features.org
+            console.log(truck.anzahlReifen);
+    </script>
+</head>
+<body>
+
+</body>
+</html>

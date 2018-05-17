@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bike</title>
+</head>
+<script src="jquery-3.3.1.min.js"></script>
+<script >
+
+    var svgCode =' <div class="fahrrad">';
+
+    class Bike{
+        constructor(farbe){
+            this.farbe =  farbe || '#000'; //default schwarz
+            this.node = $(svgCode);
+            this.node.css({'background-color':this.farbe});
+            //this.node.find('path').css({fill:this.farbe});//transparente(geht immer weiter)//destruktive(objekt geändert)//terminierend(geht nicht weiter)
+            this.createBahn();
+            console.log('Bike created');
+        }
+        createBahn(){
+            $('<div class="bahn">').appendTo('body').append(this.node);
+        }
+
+    }
+
+    $(document).ready(function(){
+
+        $('#btn-radplus').click(function(){
+            var color = $('#colorpicker').val();
+            console.log('color');
+
+            var x = new Bike(color);
+        });
+
+        //$(svgCode).appendTo('body').find('path').css({fill:'blue'});
+
+    });
+
+</script>
+<style>
+    .fahrrad{
+        height:50px;
+        width:50px;
+        color:black;
+        border:1px solid black;
+    }
+    .bahn{
+        border: 1px solid black;
+    }
+</style>
+<body>
+<form>
+    <input type="color" id='colorpicker'><button id="btn-radplus">Fahrrad Hinzufügen</button>
+    <button id="race" type="submit">Rennen Starten</button>
+</form>
+</body>
+</html>
