@@ -8,6 +8,10 @@
 </head>
 <script src="jquery-3.3.1.min.js"></script>
 <script >
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3c94f65c125520db007ffedc41a83c2832b62147
 var svgCode = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
   viewBox="0 0 511.989 511.989" style="enable-background:new 0 0 511.989 511.989;" xml:space="preserve">
   <g>
@@ -35,6 +39,10 @@ var svgCode = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink
   </g>
   </g>
   </svg>`;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3c94f65c125520db007ffedc41a83c2832b62147
 (function(){
     var result =1;
     class Bike{
@@ -46,6 +54,7 @@ var svgCode = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink
             this.pos = 0;
             console.log('Bike created');
             this.speed=Math.floor(Math.random() * 100)+1;
+<<<<<<< HEAD
         }
         createBahn(){
           return  $('<div class="bahn">').appendTo('body').append(this.node);
@@ -61,6 +70,25 @@ var svgCode = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink
         }
         setTimeout(this.go.bind(this,cb),20);
       }
+=======
+
+        }
+        createBahn(){
+          return  $('<div class="bahn">').appendTo('body').append(this.node);
+        }
+      go(cb){
+      console.log('go called');
+        this.node.css({'left':this.pos+this.speed});
+        this.pos = this.speed+this.pos;
+        if(this.pos+this.speed >(this.bahn.width()-50)){
+            this.bahn.append( $('<span>').css({'left':this.bahn.width()}).html( result++ )) ;
+          cb();
+          return;
+        }
+        setTimeout(this.go.bind(this,cb),20);
+      }
+
+>>>>>>> 3c94f65c125520db007ffedc41a83c2832b62147
       printRanking(i){
         console.log('ranking ist' +i);
       }
