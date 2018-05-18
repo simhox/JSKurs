@@ -58,15 +58,16 @@ seite lädt zuerst: google not defined
         return mitte;
     }
 
+    var remove = function(){
+
+        console.log("remove");
+    }
             $('#setMarker').click(function(){
                 var eingabe =$('#eingabe').val();
                 var mitte =setMarkerMiddle(eingabe);
-                //console.log(mitte.lat());
-                //$('#ausgabe').html(mitte.lng()+','+ mitte.lat() +'  '+ eingabe);
-                //  $('#ticketsDemosss').append($('<li>').text('sds'));
-                $('#tul').append(($("<li>".html(mitte.lng()+','+ mitte.lat() +'  '+ eingabe));
+                var i = 0;
+                $('#ausgabe').after($("<p id='"+i+"'>").html('lng: '+ mitte.lng()+', lat:'+ mitte.lat() +' Ort: '+ eingabe+ '<button id="btn'+i+'" onclick="remove()"></button>'));
             });
-
 
 
 
@@ -106,6 +107,6 @@ seite lädt zuerst: google not defined
 <button id="setMarker"> Set Marker </button>
 <input type="text" id="eingabe">
 <div id="ausgabe"></div>
-<ul id="tul"></ul>
+
 </body>
 </html>
