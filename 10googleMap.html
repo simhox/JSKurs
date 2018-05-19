@@ -16,7 +16,7 @@ seite lädt zuerst: google not defined
     <script async src="https://maps.googleapis.com/maps/api/js?callback=machKarte"></script>
     <script type="text/javascript">
         //texteingabe button liste mit orten kreuz in der mitte
-
+        //----------------------------------------------------------------------------------/
 
         //machKarte muss globale funktion sein
         var machKarte = function() {
@@ -46,7 +46,7 @@ seite lädt zuerst: google not defined
                 map: meinemap,
                 label: 'af'
             });
-
+            //----------------------------------------------------------------------------------/
             var setMarkerMiddle = function(text) {
                 var mitte = meinemap.getCenter();
                 //console.log(mitte.lat());
@@ -60,6 +60,34 @@ seite lädt zuerst: google not defined
                 });
                 return mitte;
             }
+            //----------------------------------------------------------------------------------/
+
+            //----------------------------------------------------------------------------------/
+
+
+
+            meinemap.addListener('drag', function() {
+                  console.log('drag');
+                var poly;
+                var mitte = meinemap.getCenter();
+                poly = new google.maps.Polyline({
+                    path : [{
+                            lat: mitte.lat(),
+                            lng: mitte.lng()
+                        },
+                        {
+                            lat: mitte.lat() - 1,
+                            lng: mitte.lng() - 1
+                        },
+                    ],
+                    strokeColor: '#000000',
+                    strokeOpacity: 1.0,
+                    strokeWeight: 3
+                });
+                //poly.setPath([]);
+                poly.setMap(meinemap);
+                //poly.setMap(null);
+            });
 
             $('#setMarker').click(function() {
 
@@ -71,13 +99,13 @@ seite lädt zuerst: google not defined
 
 
             //anm: funktioniert nur mit #ausgabe und nicht mit p weil p ein dynamisch erzeugtes feld ist
-            $('#ausgabe').on('click',"button.btn",function(){
+            $('#ausgabe').on('click', "button.btn", function() {
                 $(this).parent().remove();
             });
 
 
 
-            var loeschen = function(){
+            var loeschen = function() {
                 console.log("test");
             }
 
@@ -96,6 +124,7 @@ seite lädt zuerst: google not defined
 
 
 
+
         }
 
 
@@ -110,10 +139,12 @@ seite lädt zuerst: google not defined
             width: 400px;
             height: 300px;
         }
+
     </style>
 </head>
 
 <body>
+
     <div id="karte"></div>
     <button id="setMarker"> Set Marker </button>
     <input type="text" id="eingabe">
