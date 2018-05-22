@@ -10,11 +10,23 @@
 
 
         $(document).ready(function(){
+            var display = false;
+            $( "#hideshow" ).toggle( display );
 
 
+            $( "#punktebtn" ).click(function() {
+                console.log("click ");
+              display =!display;
+              $( "#hideshow" ).toggle( display );
+              if(display){
+                  $('#punktebtn').text("Dreieck");
+              }else{
+                  $('#punktebtn').text("Viereck");
+              }
+            });
         });
         class Vieleck {
-            constructor(p1x,p1y,p2x,p2y,p3x,p3y,p4x,p4x){
+            constructor(p1x,p1y,p2x,p2y,p3x,p3y,p4x,p4y){
                 this.p1x= p1x;
                 this.p1y= p1y;
                 this.p2x= p2x;
@@ -26,7 +38,7 @@
             }
 
             determineVieleck(){
-                if()
+
             }
 
         }
@@ -50,7 +62,10 @@
     Punkt2 Y:<input type="text" class="type" id="punkt2y"><br>
     Punkt3 X:<input type="text" class="type" id="punkt3x"><br>
     Punkt3 Y:<input type="text" class="type" id="punkt3y"><br>
+    <div id="hideshow">
     Punkt4 X:<input type="text" class="type" id="punkt4x"><br>
     Punkt3 Y:<input type="text" class="type" id="punkt4y"><br>
+    </div>
+    <button type="button" id="punktebtn">Viereck</button>
 </body>
 </html>
