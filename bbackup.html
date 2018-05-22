@@ -8,7 +8,6 @@
 </head>
 <script src="jquery-3.3.1.min.js"></script>
 <script >
-
 var svgCode = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
   viewBox="0 0 511.989 511.989" style="enable-background:new 0 0 511.989 511.989;" xml:space="preserve">
   <g>
@@ -36,7 +35,6 @@ var svgCode = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink
   </g>
   </g>
   </svg>`;
-
 (function(){
     var result =1;
     class Bike{
@@ -48,7 +46,6 @@ var svgCode = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink
             this.pos = 0;
             console.log('Bike created');
             this.speed=Math.floor(Math.random() * 100)+1;
-
         }
         createBahn(){
           return  $('<div class="bahn">').appendTo('body').append(this.node);
@@ -64,7 +61,6 @@ var svgCode = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink
         }
         setTimeout(this.go.bind(this,cb),20);
       }
-
       printRanking(i){
         console.log('ranking ist' +i);
       }
@@ -97,7 +93,7 @@ var ranking =0;
     }
     .bahn{
         border: 1px solid black;
-        
+
     }
   /*span { position:relative; top:10px; right:5px; font-size:1.5em; }*/
 </style>

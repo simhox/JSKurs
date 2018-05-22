@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vielecke</title>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script>
+
+
+        $(document).ready(function(){
+            var display = false;
+            $( "#hideshow" ).toggle( display );
+
+
+            $( "#punktebtn" ).click(function() {
+              display =!display;
+              $( "#hideshow" ).toggle( display );
+              if(display){
+                  $('#punktebtn').text("Dreieck");
+              }else{
+                  $('#punktebtn').text("Viereck");
+              }
+            });
+
+
+            $('#erstellenbtn').click(function(){
+                console.log("erstellebtn");
+                var p1x = $('#punkt1x').val();
+                var p1y = $('#punkt1y').val();
+                var p2x = $('#punkt2x').val();
+                var p2y = $('#punkt2y').val();
+                var p3x = $('#punkt3x').val();
+                var p3y = $('#punkt3y').val();
+                var p4x = $('#punkt4x').val();
+                var p4y = $('#punkt4y').val();
+
+                var vieleck = new Vieleck(p1x,p1y,p2x,p2y,p3x,p3y,p4x,p4y);
+                vieleck.validateInput();
+            })
+        });
+        class Vieleck {
+            constructor(p1x,p1y,p2x,p2y,p3x,p3y,p4x,p4y){
+                this.p1x= p1x;
+                this.p1y= p1y;
+                this.p2x= p2x;
+                this.p2y= p2y;
+                this.p3x= p3x;
+                this.p3y= p3y;
+                this.p4x= p4x;
+                this.p4y= p4y;
+            }
+            validateInput(){
+                var valid= true;
+                valid = this.validNmbOfPoints();
+                if(!valid){
+                    return;
+                }
+                var vieleck = this.determineVieleck();
+
+
+                if(vieleck =="dreieck"){
+                    console.log("ist dreieck");
+                    var vieleck = new Dreieck(this.p1x,this.p1y,this.p2x,this.p2y,this.p3x,this.p3y);
+                }else if(vieleck=="viereck"){
+                    var vieleck = new Viereck(this.p1x,this.p1y,this.p2x,this.p2y,this.p3x,this.p3y,this.p4x,this.p4y);
+                }
+                if(!this.inputIsValid(vieleck)){
+                    alert("Eingabe ist nicht erlaubt");
+                    return;
+                }
+
+
+            }
+
+            inputIsValid(object){
+                var array = Object.values(object);
+                for(var i = array.length - 1; i >= 0; i--) {
+                   if(array[i] === undefined) {
+                      array.splice(i, 1);
+                   }
+                }
+            return  array.every(this.isInValidRange);
+
+            }
+
+
+            isInValidRange(punkt){
+                if(punkt>=0 && punkt<=500){
+                    return true;
+                }else{
+                    return false;
+                }
+
+            }
+
+            validNmbOfPoints(){
+                if((this.p4x==""&&this.p4y!=="")||(this.p4x!==""&&this.p4y=="")){
+                    alert("Please enter missing coordinate");
+                    return false;
+                }
+                return true;
+            }
+            determineVieleck(){
+                if(this.p4x=="" && this.p4y==""){
+                    return "dreieck";
+                }else{
+                    return "viereck";
+                }
+            }
+
+        }
+        class Dreieck extends Vieleck{
+            constructor(p1x,p1y,p2x,p2y,p3x,p3y){
+                super();
+                console.log("Dreieck constructor called");
+                this.p1x = p1x;
+                this.p1y = p1y;
+                this.p2x = p2x;
+                this.p2y = p2y;
+                this.p3x = p3x;
+                this.p3y = p3y;
+                this.calculateCircumference(){
+                    return this.calculateLength(this.p1x,this.p1y)+this.calculateLength(this.p2x,this.p2y)+this.calculateLength(this.p3x,this.p3y)+this.calculateLength(this.p4x,this.p4y);
+                }
+                this.calculateLength(x,y){
+                    return Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+                }
+                this.area(){
+                    var s = this.calculateCircumference/2;
+                    return Math.sqrt(s*(s-calculateLength(this.p1x,this.p1y))*(s-calculateLength(this.p2x,this.p2y))*(s-calculateLength(this.p3x,this.p3y)));
+                }
+
+            }
+        }
+        class Viereck extends Vieleck{
+            constructor(p1x,p1y,p2x,p2y,p3x,p3y,p4x,p4y){
+                super();
+                console.log("Viereck constructor called");
+                this.p1x= p1x;
+                this.p1y= p1y;
+                this.p2x= p2x;
+                this.p2y= p2y;
+                this.p3x= p3x;
+                this.p3y= p3y;
+                this.p4x= p4x;
+                this.p4y= p4y;
+                this.calculateCircumference(){
+                    return this.calculateLength(this.p1x,this.p1y)+this.calculateLength(this.p2x,this.p2y)+this.calculateLength(this.p3x,this.p3y)+this.calculateLength(this.p4x,this.p4y);
+                }
+                this.calculateLength(x,y){
+                    return Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+                }
+            }
+
+        }
+
+    </script>
+</head>
+<body>
+    Punkt1 X:<input type="number" class="type" min="0" max="500" id="punkt1x">
+    Punkt1 Y:<input type="number" class="type" min="0" max="500" id="punkt1y"><br>
+    Punkt2 X:<input type="number" class="type" min="0" max="500" id="punkt2x">
+    Punkt2 Y:<input type="number" class="type" min="0" max="500" id="punkt2y"><br>
+    Punkt3 X:<input type="number" class="type" min="0" max="500" id="punkt3x">
+    Punkt3 Y:<input type="number" class="type" min="0" max="500" id="punkt3y"><br>
+    <div id="hideshow">
+    Punkt4 X:<input type="number" class="type" min="0" max="500" id="punkt4x">
+    Punkt3 Y:<input type="number" class="type" min="0" max="500" id="punkt4y"><br>
+    </div>
+    <button type="button" id="punktebtn">Viereck</button>
+    <button type="button" id="erstellenbtn">Erstellen</button>
+</body>
+</html>
