@@ -36,9 +36,25 @@
                 this.p4x= p4x;
                 this.p4y= p4y;
             }
+            validateInput(){
 
+                inValidRange();
+            }
+
+            inValidRange(punkt){
+                if(punkt>=0 && punkt<=500){
+                    return true;
+                }else{
+                    return false;
+                }
+
+            }
             determineVieleck(){
-
+                if(this.p4x==null || this.p4y==null){
+                    console.log('dreieck');
+                }else{
+                    console.log('viereck');
+                }
             }
 
         }
@@ -56,16 +72,17 @@
     </script>
 </head>
 <body>
-    Punkt1 X:<input type="text" class="type" id="punkt1x"><br>
-    Punkt1 Y:<input type="text" class="type" id="punkt1y"><br>
-    Punkt2 X:<input type="text" class="type" id="punkt2x"><br>
-    Punkt2 Y:<input type="text" class="type" id="punkt2y"><br>
-    Punkt3 X:<input type="text" class="type" id="punkt3x"><br>
-    Punkt3 Y:<input type="text" class="type" id="punkt3y"><br>
+    Punkt1 X:<input type="number" class="type" min="0" max="500" id="punkt1x">
+    Punkt1 Y:<input type="number" class="type" min="0" max="500" id="punkt1y"><br>
+    Punkt2 X:<input type="number" class="type" min="0" max="500" id="punkt2x">
+    Punkt2 Y:<input type="number" class="type" min="0" max="500" id="punkt2y"><br>
+    Punkt3 X:<input type="number" class="type" min="0" max="500" id="punkt3x">
+    Punkt3 Y:<input type="number" class="type" min="0" max="500" id="punkt3y"><br>
     <div id="hideshow">
-    Punkt4 X:<input type="text" class="type" id="punkt4x"><br>
-    Punkt3 Y:<input type="text" class="type" id="punkt4y"><br>
+    Punkt4 X:<input type="number" class="type" min="0" max="500" id="punkt4x">
+    Punkt3 Y:<input type="number" class="type" min="0" max="500" id="punkt4y"><br>
     </div>
     <button type="button" id="punktebtn">Viereck</button>
+    <button type="button" id="erstellenbtn">Erstellen</button>
 </body>
 </html>
