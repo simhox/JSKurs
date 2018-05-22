@@ -52,35 +52,41 @@
                 this.p4y= p4y;
             }
             validateInput(){
-                console.log("validateInput");
                 var valid= true;
                 valid = this.validNmbOfPoints();
                 if(!valid){
                     return;
                 }
-                console.log("validateINput 2");
                 var vieleck = this.determineVieleck();
 
 
                 if(vieleck =="dreieck"){
                     console.log("ist dreieck");
                     var vieleck = new Dreieck(this.p1x,this.p1y,this.p2x,this.p2y,this.p3x,this.p3y);
-                    var array = Object.values(vieleck);
-                    for(var i = array.length - 1; i >= 0; i--) {
-                       if(array[i] === undefined) {
-                          array.splice(i, 1);
-                       }
-                    }
-                
                 }else if(vieleck=="viereck"){
                     var vieleck = new Viereck(this.p1x,this.p1y,this.p2x,this.p2y,this.p3x,this.p3y,this.p4x,this.p4y);
                 }
-
+                if(!this.inputIsValid(vieleck)){
+                    alert("Eingabe ist nicht erlaubt");
+                    return;
+                }
 
 
             }
 
-            inValidRange(punkt){
+            inputIsValid(object){
+                var array = Object.values(object);
+                for(var i = array.length - 1; i >= 0; i--) {
+                   if(array[i] === undefined) {
+                      array.splice(i, 1);
+                   }
+                }
+            return  array.every(this.isInValidRange);
+
+            }
+
+
+            isInValidRange(punkt){
                 if(punkt>=0 && punkt<=500){
                     return true;
                 }else{
@@ -99,10 +105,8 @@
             determineVieleck(){
                 if(this.p4x=="" && this.p4y==""){
                     return "dreieck";
-                    console.log("determined dreicek");
                 }else{
                     return "viereck";
-                    console.log('viereck');
                 }
             }
 
@@ -117,6 +121,17 @@
                 this.p2y = p2y;
                 this.p3x = p3x;
                 this.p3y = p3y;
+                this.calculateCircumference(){
+                    return this.calculateLength(this.p1x,this.p1y)+this.calculateLength(this.p2x,this.p2y)+this.calculateLength(this.p3x,this.p3y)+this.calculateLength(this.p4x,this.p4y);
+                }
+                this.calculateLength(x,y){
+                    return Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+                }
+                this.area(){
+                    var s = this.calculateCircumference/2;
+                    return Math.sqrt(s*(s-calculateLength(this.p1x,this.p1y))*(s-calculateLength(this.p2x,this.p2y))*(s-calculateLength(this.p3x,this.p3y)));
+                }
+
             }
         }
         class Viereck extends Vieleck{
@@ -131,7 +146,14 @@
                 this.p3y= p3y;
                 this.p4x= p4x;
                 this.p4y= p4y;
+                this.calculateCircumference(){
+                    return this.calculateLength(this.p1x,this.p1y)+this.calculateLength(this.p2x,this.p2y)+this.calculateLength(this.p3x,this.p3y)+this.calculateLength(this.p4x,this.p4y);
+                }
+                this.calculateLength(x,y){
+                    return Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+                }
             }
+
         }
 
     </script>
