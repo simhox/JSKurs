@@ -14,7 +14,7 @@ var machKarte = function() {
 	}
 	meineMap = new google.maps.Map( $('#karte').get(0), kartenoptionen );
 
-    loadPreviousMarkers();
+    //loadPreviousMarkers();
 }
 var alleOrte = [];
 var machMarker = function( position ) {
@@ -26,6 +26,11 @@ var machMarker = function( position ) {
 
 var loadPreviousMarkers = function (){
     var jsontemp = localStorage.getItem('orte');
+    if(!jsontemp){
+
+        return;
+    }
+    //alleOrte =jsontemp.all;
     var obj =JSON.parse(jsontemp);
     var a = obj.all;
     a.forEach(function(item,index){
@@ -51,15 +56,8 @@ $( document ).on('click','#save', function() {
         all: alleOrte
     }
 
-    var orteAlt =localStorage.getItem('orte');
 
-    //var obj =JSON.parse(orteAlt);
-    // console.log(obj);
-    // console.log(alleOrteObjekt);
-    // var o = obj.add(alleOrteObjekt);
-    // console.log(o);
     var alleOrteString = JSON.stringify(alleOrteObjekt);
-    alleOrteString =alleOrteString+orteAlt;
     localStorage.setItem("orte",alleOrteString);
     //console.log(localStorage.getItem("orte"));
     //localStorage.clear();//alles entfernen
