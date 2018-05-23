@@ -7,7 +7,7 @@
     <title>Vielecke</title>
     <script src="jquery-3.3.1.min.js"></script>
     <script>
-
+        var id = 0;
 
         $(document).ready(function(){
             var display = false;
@@ -19,6 +19,7 @@
               $( "#hideshow" ).toggle( display );
               if(display){
                   $('#punktebtn').text("Dreieck");
+
               }else{
                   $('#punktebtn').text("Viereck");
               }
@@ -26,7 +27,6 @@
 
 
             $('#erstellenbtn').click(function(){
-                console.log("erstellebtn");
                 var p1x = $('#punkt1x').val();
                 var p1y = $('#punkt1y').val();
                 var p2x = $('#punkt2x').val();
@@ -37,7 +37,8 @@
                 var p4y = $('#punkt4y').val();
 
                 var vieleck = new Vieleck(p1x,p1y,p2x,p2y,p3x,p3y,p4x,p4y);
-                vieleck.validateInput();
+                vieleck =vieleck.validateInput();
+                vieleck.draw();
             })
         });
         class Vieleck {
@@ -70,9 +71,11 @@
                     alert("Eingabe ist nicht erlaubt");
                     return;
                 }
+                return vieleck;
+
+            }//end of validateInput
 
 
-            }
 
             inputIsValid(object){
                 var array = Object.values(object);
@@ -83,7 +86,7 @@
                 }
             return  array.every(this.isInValidRange);
 
-            }
+            }//end of InputisValid
 
 
             isInValidRange(punkt){
@@ -93,24 +96,50 @@
                     return false;
                 }
 
-            }
+            }//end of isInValidRange
 
             validNmbOfPoints(){
                 if((this.p4x==""&&this.p4y!=="")||(this.p4x!==""&&this.p4y=="")){
                     alert("Please enter missing coordinate");
                     return false;
+                }else if((this.p1x=="")||(this.p1y=="")||(this.p2x=="")||(this.p2y=="")||(this.p3x=="")||(this.p3y=="")){
+                    alert("Please enter missing coordinate");
+                    return false;
                 }
                 return true;
-            }
+            }//end of validNmbOfPoints
             determineVieleck(){
                 if(this.p4x=="" && this.p4y==""){
                     return "dreieck";
                 }else{
                     return "viereck";
                 }
-            }
+            }//end of determioneVieleck
+            writeList(){
+                var tr = $('<tr>').appendTo('#table');
+                $('<td>').appendTo(tr).html(this.p1x);
+                $('<td>').appendTo(tr).html(this.p1y);
+                $('<td>').appendTo(tr).html(this.p2x);
+                $('<td>').appendTo(tr).html(this.p2y);
+                $('<td>').appendTo(tr).html(this.p3x);
+                $('<td>').appendTo(tr).html(this.p3y);
+                $('<td>').appendTo(tr).html(this.p4x || "NA");
+                $('<td>').appendTo(tr).html(this.p4y || "NA");
+                $('<td>').appendTo(tr).html(this.calculateCircumference());
+                $('<td>').appendTo(tr).html(this.area());
+                $('<td>').appendTo(tr).html('<button class="deletebtn">Löschen</button>');
 
-        }
+
+                $('#table').on('click','.deletebtn',function(){
+                    // $(this).parent().parent().remove();
+                    console.log($(this).parent().parent().remove());
+                });
+                console.log(this.calculateCircumference());
+                console.log(this.area());
+                // tr.append('<td>').html(this.calculateCircumference());
+                // tr.append('<td>').html(this.area());
+            }//end of write list
+        }//end of vieleck
         class Dreieck extends Vieleck{
             constructor(p1x,p1y,p2x,p2y,p3x,p3y){
                 super();
@@ -121,18 +150,36 @@
                 this.p2y = p2y;
                 this.p3x = p3x;
                 this.p3y = p3y;
-                this.calculateCircumference(){
-                    return this.calculateLength(this.p1x,this.p1y)+this.calculateLength(this.p2x,this.p2y)+this.calculateLength(this.p3x,this.p3y)+this.calculateLength(this.p4x,this.p4y);
+            }
+                calculateCircumference(){
+                    var a =  this.calculateLength(this.p1x,this.p1y)+this.calculateLength(this.p2x,this.p2y)+this.calculateLength(this.p3x,this.p3y);
+
+                        return Math.floor(a);
                 }
-                this.calculateLength(x,y){
+                calculateLength(x,y){
                     return Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
                 }
-                this.area(){
-                    var s = this.calculateCircumference/2;
-                    return Math.sqrt(s*(s-calculateLength(this.p1x,this.p1y))*(s-calculateLength(this.p2x,this.p2y))*(s-calculateLength(this.p3x,this.p3y)));
+                area(){
+                    var s = this.calculateCircumference()/2;
+                    var area =Math.sqrt(s*(s-this.calculateLength(this.p1x,this.p1y))*(s-this.calculateLength(this.p2x,this.p2y))*(s-this.calculateLength(this.p3x,this.p3y)));
+                    return Math.floor(area);
+                }
+                draw(){
+                    var canvas = $('#canvas').get(0);
+                    var ctx =canvas.getContext("2d");
+                    ctx.moveTo(this.p1x, this.p1y);
+                    ctx.lineTo(this.p2x, this.p2y);
+                    ctx.stroke();
+                    ctx.lineTo(this.p3x, this.p3y);
+                    ctx.stroke();
+                    ctx.lineTo(this.p1x, this.p1y);
+                    ctx.stroke();
+                    ctx.font = '12px serif';
+                    ctx.fillStyle = "black";
+                    ctx.fillText(id++,this.p1x,this.p1y);
+                    super.writeList();
                 }
 
-            }
         }
         class Viereck extends Vieleck{
             constructor(p1x,p1y,p2x,p2y,p3x,p3y,p4x,p4y){
@@ -146,37 +193,84 @@
                 this.p3y= p3y;
                 this.p4x= p4x;
                 this.p4y= p4y;
-                this.calculateCircumference(){
-                    return this.calculateLength(this.p1x,this.p1y)+this.calculateLength(this.p2x,this.p2y)+this.calculateLength(this.p3x,this.p3y)+this.calculateLength(this.p4x,this.p4y);
+            }
+                calculateCircumference(){
+                    var c=  this.calculateLength(this.p1x,this.p1y)+this.calculateLength(this.p2x,this.p2y)+this.calculateLength(this.p3x,this.p3y)+this.calculateLength(this.p4x,this.p4y);
+                    return Math.floor(c);
                 }
-                this.calculateLength(x,y){
+
+
+                calculateLength(x,y){
                     return Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
                 }
-                this.area(){
-                    //Todo area implementation
-                    //Canvas
-                    // draw function
-                    //listenausgabe 
+                area(){
+                    var a =this.calculateLength(this.p1x,this.p1y);
+                    var b =this.calculateLength(this.p2x,this.p2y);
+                    return Math.floor(a*b);
 
                 }
-            }
+                draw(){
+                    var canvas = $('#canvas').get(0);
+                    var ctx =canvas.getContext("2d");
+                    ctx.moveTo(this.p1x, this.p1y);
+                    ctx.lineTo(this.p2x, this.p2y);
+                    ctx.stroke();
+                    ctx.lineTo(this.p3x, this.p3y);
+                    ctx.stroke();
+                    ctx.lineTo(this.p4x, this.p4y);
+                    ctx.stroke();
+                    ctx.lineTo(this.p1x, this.p1y);
+                    ctx.stroke();
+                    ctx.font = '12px serif';
+                    ctx.fillStyle = "black";
+                    ctx.fillText(id++,this.p1x,this.p1y);
+                    super.writeList();
+                }
 
         }
 
+
+        // draw function
+        //listenausgabe
+
     </script>
+    <style media="screen">
+        canvas{
+            border:1px solid black;
+        }
+        table,th,tr,td{
+            border:1px solid black;
+        }
+    </style>
 </head>
 <body>
-    Punkt1 X:<input type="number" class="type" min="0" max="500" id="punkt1x">
-    Punkt1 Y:<input type="number" class="type" min="0" max="500" id="punkt1y"><br>
-    Punkt2 X:<input type="number" class="type" min="0" max="500" id="punkt2x">
-    Punkt2 Y:<input type="number" class="type" min="0" max="500" id="punkt2y"><br>
-    Punkt3 X:<input type="number" class="type" min="0" max="500" id="punkt3x">
-    Punkt3 Y:<input type="number" class="type" min="0" max="500" id="punkt3y"><br>
+    Punkt1 X:<input type="number" class="type" min="0" max="500" id="punkt1x" value="50">
+    Punkt1 Y:<input type="number" class="type" min="0" max="500" id="punkt1y"value="50"><br>
+    Punkt2 X:<input type="number" class="type" min="0" max="500" id="punkt2x"value="50">
+    Punkt2 Y:<input type="number" class="type" min="0" max="500" id="punkt2y"value="100"><br>
+    Punkt3 X:<input type="number" class="type" min="0" max="500" id="punkt3x"value="100">
+    Punkt3 Y:<input type="number" class="type" min="0" max="500" id="punkt3y"value="75"><br>
     <div id="hideshow">
     Punkt4 X:<input type="number" class="type" min="0" max="500" id="punkt4x">
-    Punkt3 Y:<input type="number" class="type" min="0" max="500" id="punkt4y"><br>
+    Punkt4 Y:<input type="number" class="type" min="0" max="500" id="punkt4y"><br>
     </div>
     <button type="button" id="punktebtn">Viereck</button>
     <button type="button" id="erstellenbtn">Erstellen</button>
+    <br>
+    <br>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <table id="table">
+    <tr>
+        <th>x1</th>
+        <th>y1</th>
+        <th>x2</th>
+        <th>y2</th>
+        <th>x3</th>
+        <th>y3</th>
+        <th>x4</th>
+        <th>y4</th>
+        <th>Umfang</th>
+        <th>Fläche</th>
+    </tr></table>
 </body>
 </html>
