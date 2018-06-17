@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TEST</title>
+    <script src="jquery-3.3.1.min.js"></script>
+<script>
+
+var canvas;
+var ctx;
+
+
+$(document).ready(function(){
+
+    $("#thebutton").on('click',function(){
+        thearray.pop();
+    })
+    canvas = $('#canvas').get(0);
+    ctx =canvas.getContext("2d");
+})
+
+class Square{
+    constructor(p1,p2,p3,p4){
+        this.p1=p1;
+        this.p2=p2;
+        this.p3=p3;
+        this.p4=p4;
+    }
+    start(){
+        var that = this;
+        setTimeout(function(){
+            that.go();
+            that.start();
+            console.log("timeout running");
+
+        },1000);
+    }
+    go(){
+
+        ctx.clearRect(0,0,500,500);
+       for(let i = 0; i<thearray.length;i++){
+           console.log("loop running:"+i);
+
+            ctx.beginPath();
+            ctx.rect(thearray[i].p1, thearray[i].p2, thearray[i].p3, thearray[i].p4);
+            ctx.stroke();
+      }
+    }
+}
+
+var thearray=[];
+var thesquare1 = new Square(20,20,150,100);
+var thesquare2 = new Square(100,100,200,200);
+var thesquare3 = new Square(200,200,300,300);
+thearray.push(thesquare1);
+thearray.push(thesquare2);
+thearray.push(thesquare3);
+
+thesquare1.start();
+
+// function start(){
+//     setTimeout(function(){
+//         go();
+//         start();
+//         console.log("timeout running");
+//
+//     },1000);
+// }
+// function go(){
+//
+//    for(let i = 0; i<this.array.length;i++){
+//        console.log(this.array[i]);
+//   }
+//start();
+</script>
+</head>
+<body>
+    <canvas id="canvas" height="500" width="500"></canvas>
+    <button type="button" name="button" id="thebutton">Pop Array</button>
+</body>
+</html>

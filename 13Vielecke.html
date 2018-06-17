@@ -15,7 +15,7 @@
         //löschen methode
     //input validation
 
-    var dreiecke =[];
+var dreiecke = [];
 
     $(document).ready(function(){
         var canvas = $('#canvas').get(0);
@@ -39,7 +39,8 @@
             }
             dreieck.writeList();
             dreiecke.push(dreieck);
-            startAnimation(ctx);
+            console.log(dreiecke);
+            dreieck.startAnimation(ctx);
 
 
         })
@@ -56,32 +57,20 @@
     //     });
     // }
     // countdownRAF(5, Date.now());
-    var cancelMe;
-    function startAnimation(ctx){
-        cancelMe =    requestAnimationFrame(function(){
-            draw(ctx);
-            startAnimation(ctx);
-        });
-    }
-    function  draw(ctx){
-        console.log(dreiecke);
-        ctx.clearRect(0,0,500,500);
-        for(let i = 0; i<dreiecke.length;i++){
-            //console.log(dreiecke[i]);
-            
-            ctx.moveTo(dreiecke[i].p1x, dreiecke[i].p1y);
-            ctx.lineTo(dreiecke[i].p2x, dreiecke[i].p2y);
-            ctx.stroke();
-            ctx.lineTo(dreiecke[i].p3x, dreiecke[i].p3y);
-            ctx.stroke();
-            ctx.lineTo(dreiecke[i].p1x, dreiecke[i].p1y);
-            ctx.stroke();
-            ctx.font = '12px serif';
-            ctx.fillStyle = "black";
-            ctx.fillText(id,dreiecke[i].p1x,dreiecke[i].p1y);
+    // Timer.prototype.start =function(){
+    //     this.draw();
+    //     this.time--;
+    //     console.log('this.time' + this.time);
+    //     if(this.time==-1) {
+    //         console.log('this.time' + this.time);
+    //         return;
+    //     }
+    //     setTimeout(
+    //         this.start.bind(this)
+    //     ,1000);
+    //
+    // }
 
-        }
-    }
     var id = 0;
     class Dreieck {
         constructor(p1x,p1y,p2x,p2y,p3x,p3y){
@@ -92,7 +81,9 @@
             this.p2y= p2y;
             this.p3x= p3x;
             this.p3y= p3y;
-
+            this.canvas = $('#canvas').get(0);
+            this.ctx =canvas.getContext("2d");
+            this.dreiecke=[];
         }
         validateInput(){
             var valid= true;
@@ -122,8 +113,8 @@
                   array.splice(i, 1);
                }
             }
-        return  array.every(this.isInValidRange);
-
+        //return  array.every(this.isInValidRange);
+        return true;
         }//end of InputisValid
 
 
@@ -159,7 +150,7 @@
 
             $('#table').on('click','.deletebtn',function(){
                 // $(this).parent().parent().remove();
-                console.log($(this).parent().parent().remove());
+                $(this).parent().parent().remove();
 
                 var p1x = $(this).parent().siblings().html();
                 var p1y = $(this).parent().siblings().next().html();
@@ -177,14 +168,15 @@
             // tr.append('<td>').html(this.area());
         }//end of write list
         deleteDreieck(p1x,p1y,p2x,p2y,p3x,p3y){
+            console.log('delete Dreieck');
             for(let i =0;i<dreiecke.length;i++){
+
+
                 if(dreiecke[i].p1x ==p1x&&dreiecke[i].p1y ==p1y&&dreiecke[i].p2x ==p2x&&dreiecke[i].p2y ==p2y&&dreiecke[i].p3x ==p3x&&dreiecke[i].p3y ==p3y){
                     console.log('löschen');
                     dreiecke.splice(i,1);
-                    var canvas = $('#canvas').get(0);
-                     var ctx =canvas.getContext("2d");
-                    ctx.clearRect(0,0,500,500);
-                    cancelAnimationFrame(cancelMe);
+                    console.log(dreiecke);
+
 
                 }//end of if
             }//end of for
@@ -206,7 +198,73 @@
         }
 
 
+        doBoth(){
+            this.draw();
+            this.startAnimation();
+            console.log("doBoth running");
+        }
+        startAnimation(){
+            var that = this;
+           setTimeout(function(s){
+            that.doBoth();
+           },1000);
+       }
+
+       doTheDrawing(){
+           this.ctx.clearRect(0,0,500,500);
+           for(var i = 0; i<dreiecke.length;i++){
+               //console.log('i'+i);
+             if(true){
+                 console.log("clear react");
+             }
+                this.ctx.beginPath();
+
+                 this.ctx.moveTo(dreiecke[i].p1x, dreiecke[i].p1y);
+                 this.ctx.lineTo(dreiecke[i].p2x, dreiecke[i].p2y);
+                 this.ctx.stroke();
+
+
+               this.ctx.lineTo(dreiecke[i].p3x, dreiecke[i].p3y);
+               this.ctx.stroke();
+               this.ctx.lineTo(dreiecke[i].p1x, dreiecke[i].p1y);
+               this.ctx.stroke();
+               this.ctx.font = '12px serif';
+               this.ctx.fillStyle = "black";
+               this.ctx.fillText(id,dreiecke[i].p1x,dreiecke[i].p1y);
+           }
+
+       }
+        draw(){
+             // console.log(dreiecke);
+            console.log("drawing");
+            this.doTheDrawing();
+              // for(var i = 0; i<dreiecke.length;i++){
+              //     //console.log('i'+i);
+              //   if(true){
+              //       console.log("clear react");
+              //       this.ctx.clearRect(0,0,500,500);
+              //   }
+              //
+              //
+              //       this.ctx.moveTo(dreiecke[i].p1x, dreiecke[i].p1y);
+              //       this.ctx.lineTo(dreiecke[i].p2x, dreiecke[i].p2y);
+              //       this.ctx.stroke();
+              //
+              //
+              //     this.ctx.lineTo(dreiecke[i].p3x, dreiecke[i].p3y);
+              //     this.ctx.stroke();
+              //     this.ctx.lineTo(dreiecke[i].p1x, dreiecke[i].p1y);
+              //     this.ctx.stroke();
+              //     this.ctx.font = '12px serif';
+              //     this.ctx.fillStyle = "black";
+              //     this.ctx.fillText(id,dreiecke[i].p1x,dreiecke[i].p1y);
+              // }
+          }
+
     }//end of dreieck
+
+
+
 
 </script>
 
